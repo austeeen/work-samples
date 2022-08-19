@@ -1,0 +1,31 @@
+ version: '3.2'
+ services:
+  vision-service:
+    build: .
+    image: badger-vision:latest
+    privileged: true
+    environment:
+      FLASK_APP: 'src/vision_service.py'
+      TEST_RUN: '1'
+      AWS_ACCESS_KEY_ID: 'test'
+      AWS_SECRET_ACCESS_KEY: 'test'
+      PLATFORM: 'aws'
+    ports:
+      - "PRIVATE:PRIVATE"
+    depends_on:
+      - localstack
+    stdin_open: true
+    tty: true
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: PRIVATE
+    ports:
+      - 'PRIVATE-PRIVATE:PRIVATE-PRIVATE' # Localstack uses these as endpoints for various APIs
+      - 'PRIVATE:PRIVATE'
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/${container_name}/data
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'

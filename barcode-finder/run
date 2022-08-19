@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+usage () {
+    echo "run [opt]*"
+    echo "  build opts"
+    echo "    b - build docker-compose"
+    echo "    r - run docker-compose"
+}
+
+
+if [[ $# -eq 0 ]]; then
+    echo "at least one option required."
+    exit 1
+elif [[ $# -gt 1 ]]; then
+    echo "excess args [${@:2}] will be ignored..."
+fi
+
+do_build="false"
+do_run="false"
+
+args=($(echo $1 | grep -o .))
+for c in "${args[@]}"; do
+    case $c in
+        b)
+            do_build="true";;
+        r)
+            do_run="true";;
+        *)
+            echo "bad arg: $c";;
+  esac
+done
+
+if [[ $do_build == "true" ]]; then
+    exit_stat=$(docker-compose build)
+fi
+
+if [[ $exit_stat -ne 0 ]]; then
+    echo "exiting"
+    exit $exit_stat
+fi
+
+if [[ $do_run == "true" ]]; then
+    docker-compose up
+fi

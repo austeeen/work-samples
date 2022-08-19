@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: PRIVATE
+  name: PRIVATE
+  namespace: PRIVATE
+spec:
+  replicas: ${REPLICAS}
+  selector:
+    matchLabels:
+      app: PRIVATE
+  template:
+    metadata:
+      labels:
+        app: PRIVATE
+    spec:
+      serviceAccountName: PRIVATE
+      containers:
+      - name: PRIVATE
+        image: PRIVATE
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 200m
+            memory: 500M
+          limits:
+            cpu: 200m
+            memory: 500M
+        env:
+          - name: PLATFORM
+            value: "aws"
+          - name: PYTHONUNBUFFERED
+            value: "true"
+          - name: FLASK_APP
+            value: 'src/vision_service.py'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: PRIVATE
+  namespace: PRIVATE
+  annotations:
+    service.beta.kubernetes.io/PRIVATE: "internal"
+spec:
+  ports:
+    - port:  PRIVATE
+      targetPort:  PRIVATE
+      protocol:  PRIVATE
+  type:  PRIVATE
+  selector:
+    app: PRIVATE

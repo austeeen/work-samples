@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# set -x
+
+# CMD ARGS
+BAR_IP=$1
+PLAY_PATH="PRIVATE"
+
+# CONSTANTS
+PORT=PRIVATE
+BARKEY_PATH=PRIVATE
+
+sshcmd="ssh -p $PORT -i $BARKEY_PATH -o StrictHostKeyChecking=no bar@$BAR_IP"
+
+$sshcmd "ls $PLAY_PATH $3"

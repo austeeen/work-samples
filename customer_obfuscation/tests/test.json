@@ -1,0 +1,12 @@
+{
+  "capture_event_id": 1234,
+  "bucket":"PRIVATE-bucket",
+  "min_confidence": 0.75,
+  "images":
+  [
+    {
+      "camera_label":"CAM_TEST",
+      "url": "http://PRIVATE:PRIVATE/PRIVATE/PRIVATE.jpg"
+    }
+  ]
+}

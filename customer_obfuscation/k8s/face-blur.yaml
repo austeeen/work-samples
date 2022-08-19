@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: PRIVATE
+  name: PRIVATE
+  namespace: "${NAMESPACE}"
+spec:
+  replicas: ${REPLICAS}
+  selector:
+    matchLabels:
+      app: PRIVATE
+  template:
+    metadata:
+      labels:
+        app: PRIVATE
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: 'gpu'
+                    operator: In
+                    values:
+                      - 'true'
+      serviceAccountName: PRIVATE
+      containers:
+      - name: PRIVATE
+        image: PRIVATE.jfrog.io/PRIVATE/customer-obfuscator:${GIT_COMMIT}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 200m
+            memory: 3G
+          limits:
+            ${GPU_LIMIT}
+        envFrom:
+          - configMapRef:
+              name: PRIVATE-config
+              optional: false
+        env:
+          - name: REDIS_KEY
+            value: "PRIVATE:request"
+          - name: REDIS_RESULT_KEY
+            value: "PRIVATE:response"
+          - name: PLATFORM
+            value: "aws"
+          - name: PYTHONUNBUFFERED
+            value: "true"
+          - name: REDIS_URL
+            valueFrom:
+              secretKeyRef:
+                key: REDIS_URL
+                name: redis-url
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

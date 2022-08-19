@@ -1,0 +1,42 @@
+ version: '2.1' #Must be at least 2.1 for localstack
+ services:
+
+  obfuscator:
+    build: .
+    image: PRIVATE:latest
+    privileged: true
+    environment:
+      REDIS_URL: 'redis://PRIVATE:PRIVATE'
+      REDIS_RESULT_KEY: 'PRIVATE:PRIVATE'
+      REDIS_KEY: 'PRIVATE:PRIVATE'
+      BUCKET: 'PRIVATE-bucket'
+      TEST_RUN: '1'
+      AWS_ACCESS_KEY_ID: 'test'
+      AWS_SECRET_ACCESS_KEY: 'test'
+      PLATFORM: 'aws'
+      CAFFE_MIN_CONFIDENCE: 0.05
+    ports:
+      - "PRIVATE:PRIVATE"
+    depends_on:
+      - redis
+      - localstack
+    stdin_open: true
+    tty: true
+
+  redis:
+    image: redis
+    ports:
+      - "PRIVATE:PRIVATE"
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "PRIVATE:PRIVATE"
+    environment:
+      - SERVICES=${SERVICES- s3}
+      - DEBUG=${DEBUG- }
+      - DATA_DIR=${DATA_DIR- }
+      - PORT_WEB_UI=${PORT_WEB_UI- }
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR- }
+      - KINESIS_ERROR_PROBABILITY=${KINESIS_ERROR_PROBABILITY- }
+      - DOCKER_HOST=unix:///var/run/docker.sock

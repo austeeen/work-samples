@@ -1,0 +1,5 @@
+#!/bin/bash
+
+dst_img=$(docker ps -aqf "name=barcode-finder_1")
+
+docker exec -it "$dst_img" bash -c "kill -15 1"

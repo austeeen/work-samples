@@ -1,0 +1,22 @@
+{
+  "async": false,
+  "storage": [
+    {
+      "name": "image_storage",
+      "resource_path": "PRIVATE",
+      "resources": ["sample_pano.jpg"],
+      "output_path": "PRIVATE",
+      "output_resources": ["sample_pano_blurred.jpg"],
+      "cache": false
+    }
+  ],
+  "filter_graph": {
+    "name": "fmcg_blur",
+    "concurrent": true,
+    "properties": {
+      "mask_polygons": [[0, 0, 100, 0, 100, 100, 0, 100]],
+      "mask_color": "#A9A9A9",
+      "mask_alpha": 1.0
+    }
+  }
+}

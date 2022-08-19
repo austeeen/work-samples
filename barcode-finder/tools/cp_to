@@ -1,0 +1,2 @@
+#!/bin/bash
+docker cp "$1" "$(docker ps -aqf "name=barcode-finder_1")":/usr/src/app/

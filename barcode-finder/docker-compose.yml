@@ -1,0 +1,31 @@
+ version: '2'
+ services:
+   barcode-finder:
+     build: .
+     image: barcode-finder:latest
+     privileged: true
+     volumes:
+         type: bind
+         source: ./customer_images
+         target: /usr/src/app/customer_images
+     environment:
+        REDIS_URL: 'redis://redis:6379'
+        REDIS_SERVER: 'redis'
+        REDIS_PORT: '6379'
+        REDIS_RESULT_KEY: 'analyzer:result'
+        REDIS_KEY: 'analyzer:review'
+        HONEYWELL_KEY: 'PRIVATE'
+        STORAGE_PATH: './'
+        START_FLAG: 'START'
+        STOP_FLAG: 'STOP'
+        INIT_FLAG: 'INIT'
+        RESULT_FLAG: 'RESULT'
+     ports:
+       - "3000:3000"
+     depends_on:
+       - redis
+     stdin_open: true
+     tty: true
+
+   redis:
+     image: redis

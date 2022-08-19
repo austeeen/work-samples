@@ -1,0 +1,2 @@
+#!/bin/bash
+docker exec -it "$(docker ps -aqf "name=barcode-finder_1")" bash 

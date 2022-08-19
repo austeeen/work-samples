@@ -1,0 +1,43 @@
+pipeline {
+  agent {
+    label 'PRIVATE'
+  }
+  options {
+    timestamps()
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        sh 'docker build -t PRIVATE:${GIT_COMMIT} .'
+      }
+    }
+    stage('PRIVATE release') {
+      when {
+        expression { (env.BRANCH_NAME == "PRIVATE") }
+      }
+      steps {
+        sh 'tools/grelease.sh gcp-PRIVATE'
+        sh 'tools/gdeploy.sh gcp-PRIVATE -j'
+      }
+    }
+    stage('PRIVATE release') {
+      when {
+        expression { (env.BRANCH_NAME == "PRIVATE") }
+      }
+      steps {
+        sh 'tools/grelease.sh gcp-PRIVATE'
+        sh 'tools/gdeploy.sh gcp-PRIVATE -j'
+      }
+    }
+    stage('PRIVATE release') {
+      when {
+        expression { (env.BRANCH_NAME == "PRIVATE") }
+      }
+      steps {
+        sh 'tools/grelease.sh gcp-PRIVATE'
+        sh 'tools/gdeploy.sh gcp-PRIVATE -j'
+      }
+    }
+  }
+}
